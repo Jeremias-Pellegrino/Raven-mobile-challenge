@@ -12,7 +12,13 @@ class APIClient {
     let cache: URLCache
     
     init() {
-        //MARK: Could be useful to have a cache around and avoid wasting 20+ mb of download per call. Verify if the size is enough to store the 200k items.
+
+        if let apiKey = ProcessInfo.processInfo.environment["RAVEN_KEY"] {
+            print("API Key: \(apiKey)")
+        } else {
+            print("API Key not found")
+        }
+
         cache = URLCache(memoryCapacity: 50 * 1024 * 1024,
                          diskCapacity: 200 * 1024 * 1024,
                          diskPath: nil)
@@ -20,7 +26,6 @@ class APIClient {
     
     func requestData(with url: URL, shouldCache: Bool = true) async throws -> Data {
         
-        //MARK: May want add check conditions to verify the current data correctnes, etc. For the purposes of this challenge, the data remains constant, so... it's safe to assume we don't need to.
         if let cachedResponse = cache.cachedResponse(for: URLRequest(url: url)) {
             return cachedResponse.data
         }
