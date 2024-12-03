@@ -7,19 +7,24 @@
 
 import Foundation
 
-struct Welcome: Codable {
+struct MostPopular: Codable {
     let status, copyright: String
     let numResults: Int
-    let results: [Result]
+    let articles: [Article]
 
     enum CodingKeys: String, CodingKey {
         case status, copyright
         case numResults = "num_results"
-        case results
+        case articles = "results"
     }
 }
 
-struct Result: Codable {
+class Article: Codable, Equatable {
+    
+    static func == (lhs: Article, rhs: Article) -> Bool {
+        lhs.id == rhs.id
+    }
+    
     let uri: String
     let url: String
     let id, assetID: Int
@@ -81,13 +86,14 @@ enum Subtype: String, Codable {
     case photo = "photo"
 }
 
-enum MediaType: String, Codable {
-    case image = "image"
-}
+// estos dos pueden ser eliminados
+    enum MediaType: String, Codable {
+        case image = "image"
+    }
 
-enum Source: String, Codable {
-    case newYorkTimes = "New York Times"
-}
+    enum Source: String, Codable {
+        case newYorkTimes = "New York Times"
+    }
 
 enum ResultType: String, Codable {
     case article = "Article"
