@@ -19,15 +19,15 @@ struct HTTPResponseCode {
     }
     
     let category: HTTPResponseCategory
-    var isSatisfactory: Bool = false
     
-    init(_ code: Int) {
+    static func validate(_ code: Int) throws {
+        let category: HTTPResponseCategory
         switch code {
         case 100...199:
             category = .informativeResponse(code)
         case 200...299:
             category = .satisfactoryResponse(code)
-            isSatisfactory = true
+            return
         case 300...399:
             category = .redirection(code)
         case 400...499:
@@ -37,5 +37,7 @@ struct HTTPResponseCode {
         default:
             category = .other(code)
         }
+        
+        throw category
     }
 }
