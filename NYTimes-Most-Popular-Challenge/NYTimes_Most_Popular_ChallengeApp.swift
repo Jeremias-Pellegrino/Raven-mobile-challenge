@@ -11,7 +11,7 @@ import SwiftUI
 struct NYTimes_Most_Popular_ChallengeApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            Landing()
         }
     }
 }
